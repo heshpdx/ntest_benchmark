@@ -29,7 +29,6 @@
 #include "pattern/FastFlip.h"
 #include "PlayerComputer.h"
 
-#include "SmartBook.h"
 #include "options.h"
 #include "Evaluator.h"
 #include "EvalTest.h"
@@ -65,7 +64,6 @@ void Init() {
 
 void Clean() {
     CleanConfigToPotMob();
-    CSmartBook::Clean();
 }
 
 void Test() {

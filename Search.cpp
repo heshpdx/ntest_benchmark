@@ -3,7 +3,6 @@
 #include "n64/solve.h"
 #include "core/NodeStats.h"
 #include "core/CalcParams.h"
-#include "core/Book.h"
 #include "core/Cache.h"
 #include "core/options.h"
 #include "core/MPCStats.h"
@@ -12,9 +11,6 @@
 #include "Search.h"
 #include "Evaluator.h"
 
-// book search depths
-const int kBookReadDepth=6;	// maximum depth to read from book
-extern int hBookRead, hBookWrite;
 const int nAbortCheck=1<<14; // check for aborts every few evals
 
 // search params
@@ -25,8 +21,6 @@ extern int hNegascout;
 // debugging constants
 extern int nEmptyCNAPrint;
 extern bool fPrintWLD;
-const bool fPrintBookReads=false;
-extern int* nBookReads;
 
 u4 holeParity;
 
@@ -180,14 +174,6 @@ CValue ValueBookCacheOrTree(Pos2& pos2, int height, CValue alpha, CValue beta, C
 
     CMVK best;
 
-    if (height>=hBookRead) {
-        CHeightInfo hi(height, iPrune, false);
-        if (book->Load(pos2.GetBB(), hi, alpha, beta, best.value, pos2.NEmpty())) {
-            if (fPrintBookReads)
-                printf("br%d!",height-hBookRead);
-            return best.value;
-        }
-    }
 
     ValueCacheOrTree(pos2, height, alpha, beta, moves, iPrune, best);
     assert(abortRound || iPrune || (height+hSolverStart!=pos2.NEmpty()) || (best.value<=64*kStoneValue && best.value>=-64*kStoneValue));
@@ -712,16 +698,6 @@ void ValueMulti(Pos2& pos2, int height, CValue alpha, CValue beta, int iPrune, u
     // If we had a beta cutoff,some moves weren't even tried, put them last.
     mvsEvaluated.insert(mvsEvaluated.end(),i,mvs.end());
 }
-
-//! set book read & write heights prior to calling Value()
-void SetBookHeights(int height) {
-
-    if(book)
-        hBookRead=height-kBookReadDepth;
-    else
-        hBookRead=height+1;
-}
-
 //! Make the cache stale so it doesn't get blocked up
 void InitializeCache() {
     cache->SetStale();
@@ -793,7 +769,6 @@ void IterativeValue(Pos2& pos2, CMoves moves, const CCalcParams& cp,
     // iterate
     while (!mvk.move.Valid() || cp.RoundOK(hi, pos2.NEmpty(), tElapsed, si.tRemaining) ) {
         if (fPrintTree) TreeDebugStartRound(hi);
-        SetBookHeights(hi.height);
 
         // Set alpha and beta depending on whether this is an WLD search or exact value search.
         if (hi.fWLD) {
@@ -852,15 +827,6 @@ void IterativeValue(Pos2& pos2, CMoves moves, const CCalcParams& cp,
     }
 
     assert(mvk.move.Valid());
-    if (book) {
-        bool fStoreUnsolved;
-        if (si.NeedNoAddSoloUnsolvedToBook())
-            fStoreUnsolved=!abortRound && nBest>1;
-        else
-            fStoreUnsolved=true;
-
-        book->StoreIterativeResult(pos2.GetBB(), nBest, nEvalOld,nEvalNew,mvsOld,mvsNew,mvk, fFull, fStoreUnsolved);
-    }
     if (si.PrintMoveSearchStats()) {
         u4 i;
         if (nEvalNew) {
@@ -1022,16 +988,6 @@ void TimedMVK(Pos2& pos2, const CCalcParams& cp, const CSearchInfo& si, CMVK& mv
         mvk.fBook=true;
         mvk.value=0;
     }
-    else if (book && book->GetRandomMove(CQPosition(pos2.GetBB(), pos2.BlackMove()), si, mvk, fPassBefore)) {
-        // move in book
-        mvk.fKnown=true;
-        mvk.fBook=true;
-        if (fPassBefore)
-            assert(mvk.move.IsPass());
-        else
-            assert(mvk.move.Valid());
-    }
-
     else {
         pos2.Initialize(sTextSave, m_fBlackMoveSave);
         if (moves.NMoves()==1 && !(si.NeedValue())) {

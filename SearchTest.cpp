@@ -2,7 +2,6 @@
 #include <iomanip>
 #include "n64/test.h"
 #include "core/Cache.h"
-#include "core/Book.h"
 #include "core/MPCStats.h"
 #include "core/BitBoardTest.h"
 #include "SpeedTest.h"
@@ -149,7 +148,6 @@ void TestEndgameAccuracy(){
 
 	// create computer
 	CComputerDefaults cd;
-	cd.booklevel=CComputerDefaults::kNoBook;
 	CPlayerComputer computer(cd);
 
 	start.Read();
@@ -172,7 +170,7 @@ void TestEndgameAccuracy(){
 		CMVK mvk;
 		CSearchInfo si=computer.DefaultSearchInfo(fBlackMove, CSearchInfo::kNeedValue+CSearchInfo::kNeedMove, 1e6, 0);
 		CQPosition qpos(pos2.GetBB(), pos2.BlackMove());
-		computer.GetChosen(si,qpos,mvk, true);
+		computer.GetChosen(si,qpos,mvk);
 		value=mvk.value/kStoneValue;
 		end1.Read();
 		delta1=end1-start1;
@@ -208,14 +206,10 @@ std::vector<CMoveValue> createMoves(CQPosition testPosition) {
 }
 
 void TestIterativeValue(int depth) {
-	// setup book and cache
 	CCache acache(2);
 	cache = &acache;
 	const int nEmpty = 22;
-	CBook* oldBook = book;
-	book = NULL;
 	InitializeCache();
-	SetBookHeights(nEmpty);
 	mpcs = CMPCStats::GetMPCStats('J','A',5);
 
 	// testing
@@ -227,16 +221,7 @@ void TestIterativeValue(int depth) {
 	u4 nValued=0;
 	std::vector<CMoveValue> mvsEvaluated;
 	ValueMulti(pos2, depth, -kInfinity, kInfinity, 4, 1, mvs, false, false, mvsEvaluated, nValued);
-//	cout << " nValued = " << nValued << "\n";
-//	cout << " mvsEvaluated = \n";
-//	for (int i=0; i<mvsEvaluated.size(); i++) {
-//		CMoveValue mv = mvsEvaluated.at(i);
-//		cout << "new CMoveValue(" << mv.move << "," << mv.value << "),\n";
-//	}
-//	cout << "\n";
 
-	// tear down book and cache
-	book = oldBook;
 	cache = NULL;
 }
 

@@ -6,10 +6,8 @@
 
 inline void testCore() {
 	void TestBitBoard();
-	void TestBook();
 
 	TestBitBoard();
-	TestBook();
 	TestQPosition();
 	CMove::Test();
 	CMoves::Test();

@@ -4,7 +4,6 @@
 #include "core/BitBoardTest.h"
 #include "core/MPCStats.h"
 #include "core/QPosition.h"
-#include "core/Book.h"
 
 #include "SearchParams.h"
 #include "Pos2.h"

@@ -5,7 +5,6 @@
 #include "game/Player.h"
 
 class CEvaluator;
-class CSmartBook;
 class CCache;
 class CMPCStats;
 class CCalcParams;
@@ -23,23 +22,15 @@ public:
 	int iPruneEndgame, iPruneMidgame, nRandShifts[2];
 	u4 iEdmund;
 	u4 fsPrint, fsPrintOpponent;
-	enum {kNoBook, kBook, kNegamaxBook} booklevel;
 
 	int MinutesOrDepth() const;
-
-	std::istream& In(std::istream& is);
 
 	static CValue FloatToContempt(double fContempt);
 };
 
-inline std::istream& operator>>(std::istream& is, CComputerDefaults& cd) {
-	return cd.In(is);
-}
-
 //! Computerized player of an othello game
 class CPlayerComputer : public CPlayer {
 public:
-	CSmartBook* book;
 	CEvaluator* eval;
 	CCache *caches[2];
 	bool fHasCachedPos[2];
@@ -47,11 +38,10 @@ public:
 	CMPCStats *mpcs;
 	CComputerDefaults cd;
 	bool toot;
-	bool solved, hasBacktracked, fAverageTime, fInBook;
+	bool solved, hasBacktracked, fAverageTime;
 	bool fAnalyzingDeferred;
 	CValue solvedValue;
 
-	//CPlayerComputer(char anEval, char aCoeffSet, CCalcParams* pcp, int iPrune, bool fBook=true, bool fCNABook=true);
 	CPlayerComputer(const CComputerDefaults& acd);
     CPlayerComputer() {}
 	virtual ~CPlayerComputer();
@@ -66,14 +56,9 @@ public:
 	// Routine to get a move
 	void Clear();
 	CSearchInfo DefaultSearchInfo(bool fBlackMove, u4 fNeeds, double tRemaining, int iCache) const;
-	void GetChosen(const CSearchInfo& si, const CQPosition& pos, CMVK& chosen, bool fUseBook);
+	void GetChosen(const CSearchInfo& si, const CQPosition& pos, CMVK& chosen);
 	void Hint(const CQPosition& pos, int nBest);
 
-	// Post-game analysis
-	bool AnalyzeGame(const COsGame& game);
-	void Backtrack(const COsGame& game);
-	void PrintAnalysis(const COsGame& game);
-	void NegamaxAndCorrectBook();
 
 	// misc
 	static u4 LogCacheSize(CCalcParams* pcp, int iPrune);
@@ -84,9 +69,8 @@ public:
 	virtual bool IsHuman() const;
 
 protected:
-	void SetParameters(const CQPosition& pos, bool fUseBook, int iCache);
-	void SetParameters(bool fUseBook, int iCache);
-	void SetupBook(bool fCNABook);
+	void SetParameters(const CQPosition& pos, int iCache);
+	void SetParameters(int iCache);
 	static int DefaultRandomness();
 	virtual CCache* GetCache(int iCache);
 	CQPosition posCached[2];

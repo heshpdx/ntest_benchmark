@@ -64,7 +64,6 @@ void TestMidgameSpeed(int nEmpty, CHeightInfo hi, int nGames, int flags) {
     CComputerDefaults cd;
 
     // setup computer
-    cd.booklevel=CComputerDefaults::kNoBook;
     cd.fsPrint=-1;
     CPlayerComputer computer(cd);
     pcpOld=computer.pcp;
@@ -124,7 +123,7 @@ void TestMidgameSpeed(int nEmpty, CHeightInfo hi, int nGames, int flags) {
         // calc move and value
         CSearchInfo si=computer.DefaultSearchInfo(pos.BlackMove(),CSearchInfo::kNeedMove+CSearchInfo::kNeedValue,1e6, 0);
         si.SetPrintLevel(0);
-        computer.GetChosen(si, pos, mvk, true);
+        computer.GetChosen(si, pos, mvk);
 
         // calc timing
         end1.Read();
@@ -195,7 +194,6 @@ void TestLogStuff(int hMax) {
     CCalcParamsFixedHeight cp(hi);
     CCalcParams *pcpOld;
     CComputerDefaults cd;
-    cd.booklevel=CComputerDefaults::kNoBook;
     CPlayerComputer computer(cd);
     pcpOld=computer.pcp;
     computer.pcp=&cp;
@@ -205,7 +203,7 @@ void TestLogStuff(int hMax) {
     CQPosition qpos("..................*O**....**O*....*OOO....OOOO......O...........", false);
 
     CSearchInfo si=computer.DefaultSearchInfo(qpos.BlackMove(),CSearchInfo::kNeedMove+CSearchInfo::kNeedValue,1e6,0);
-    computer.GetChosen(si, qpos, mvk, true);
+    computer.GetChosen(si, qpos, mvk);
     computer.pcp=pcpOld;
 }
 

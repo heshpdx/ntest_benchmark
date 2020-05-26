@@ -6,6 +6,6 @@
 // test header file
 
 #pragma once
-
+#include "core/QPosition.h"
 void TestMoveSpeed(int end_depth = 26, int mid_depth = 26);
 CQPosition PositionFromEmpties(const COsGame& game, int nEmpty);
