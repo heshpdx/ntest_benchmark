@@ -1,34 +1,3 @@
-if Gem.win_platform?
-  # Need to have mingw-x64 installed
-  $COMPILER = "g++"
-  $COMPILE_FLAGS = "-m64 -std=c++14 -pthread -Wall -msse4.2 -I."
-  $ADDITIONAL_LINK_FLAGS = "-lws2_32"
-else
-  akro_multitask()
-  $COMPILER_PREFIX = "ccache" if system("ccache --version", [:out, :err] => '/dev/null')
-  system = `uname -s`
-  machine = `uname -m`
-
-  if system =~ /Linux/
-    if machine =~ /^arm/
-      $COMPILER = "clang++"
-      $COMPILE_FLAGS = "-std=c++14 -pthread -Wall -I. -mfpu=neon -Wno-overloaded-virtual -Werror -Wno-error=deprecated-declarations"
-    elsif machine =~ /^x86/ || machine =~ /^amd64/
-      $COMPILE_FLAGS = "-std=c++14 -pthread -Wall -Werror -msse4.2 -maes -I. -mbmi2"
-    elsif machine =~ /^aarch64/
-      $COMPILE_FLAGS = "-std=c++14 -pthread -Wall -Werror -I."
-    else
-      puts "Unknown machine #{machine}"
-    end
-  elsif system =~ /Mac OS/ || system =~ /Darwin/
-    $COMPILER = "clang++"
-    $COMPILE_FLAGS = "-std=c++14 -pthread -Wall -Werror -msse4.2 -I. -stdlib=libc++"
-  else
-    puts "Unknown system #{system}"
-  end
-end
-add_binary(path: ["bookconv.exe", "allPositions.exe", "bookplay.exe", "n64/bitExtractTestMain.exe", "ntest.exe", "randomEvalGen.exe", "pattern/randomPlayMain.exe"])
-add_test(name: "ntest_basic", binary: "ntest.exe", cmdline: "t")
-add_test(name: "bitextract", binary: "n64/bitExtractTestMain.exe")
-add_test(name: "randomplay", binary: "pattern/randomPlayMain.exe")
-task :default => ["debug", "release"]
+$COMPILE_FLAGS = "-std=c++14 -pthread -march=native -I."
+add_binary(path: ["speed_test.exe"])
+task :default => ["release"]
