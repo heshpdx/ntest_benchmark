@@ -13,9 +13,8 @@
 #include <iomanip>
 #include <sstream>
 #include <math.h>
-#include "../port.h"
+#include "port.h"
 #include "../n64/utils.h"
-#include "Ticks.h"
 #include "NodeStats.h"
 
 using namespace std;

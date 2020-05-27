@@ -214,11 +214,9 @@ void CCalcParamsStandard::Out(ostream& os) const {
 
 void CCalcParamsStandard::Name(ostream& os) const {
     switch(hMidgame) {
-#if !defined(EXTERNAL)
     case  2: os << "pamphlet"; break;
     case  8: os << "leaflet"; break;
     case 12: os << "booklet"; break;
-#endif
     default: Out(os);
     }
 }

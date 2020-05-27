@@ -2,7 +2,9 @@
 
 // Collection of platform-dependent routines
 
+#include <string>
 #include <cinttypes>
+#include "port.h"
 
 typedef uint8_t u1;
 typedef uint16_t u2;
@@ -27,19 +29,26 @@ typedef uint32_t u32;
 #include <xmmintrin.h>
 #include <smmintrin.h>
 #elif defined(_WIN32)
+#include <xmmintrin.h>
 #include <nmmintrin.h>
 #endif
 
 
 #ifdef _WIN32
+#include <windows.h>
 #include <intrin.h>
 #else
 #include <unistd.h>
 #endif
 
-#include <string>
+inline void prefetch(const char* address) {
+#if defined(_WIN32)
+    	_mm_prefetch(address, _MM_HINT_NTA);
+#elif __GNUC__ >=4
+    	__builtin_prefetch(address, 0, 0);
+#endif
+}
 
-#include "port.h"
 
 inline int bit(int index, u64 bits) {
     // using _bittest64 seems slightly slower (2% endgame, same midgame),
@@ -153,3 +162,5 @@ inline u64 flipVertical(u64 a) {
 #error "Unknown compiler"
 #endif
 }
+i8 GetTicks(void);
+i8 GetTicksPerSecond(void);

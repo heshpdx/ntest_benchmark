@@ -1,18 +1,5 @@
-// Copyright Chris Welty
-//  All Rights Reserved
-// This file is distributed subject to GNU GPL version 3. See the files
-// GPLv3.txt and License.txt in the instructions subdirectory for details.
-
-//////////////////////////////////////////////////////
-// portable time measuring functions
-// code added by Richard Delorme
-//////////////////////////////////////////////////////
-
-
-#include "Ticks.h"
-
+#include "port.h"
 #if defined(_WIN32)
-#include <windows.h>
 
 i8 GetTicks(void) {
     LARGE_INTEGER ticks;
@@ -27,7 +14,6 @@ i8 GetTicksPerSecond(void) {
 }
 
 #else
-
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <fcntl.h>
@@ -42,5 +28,4 @@ i8 GetTicks(void) {
 i8 GetTicksPerSecond(void) {
     return (i8) 1000000;
 }
-
 #endif // _WIN32

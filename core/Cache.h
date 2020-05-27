@@ -9,10 +9,7 @@
 
 #include "BitBoard.h"
 #include "Moves.h"
-
-#if defined(_WIN32)
-#include <xmmintrin.h>
-#endif
+#include "port.h"
 
 //! Data element of the transposition table (CCache)
 class CCacheData {
@@ -92,11 +89,7 @@ public:
 
     void Prefetch(u64 hash) {
     	hash &= nBuckets - 1;
-#if defined(_WIN32)
-    	_mm_prefetch(reinterpret_cast<const char *>(buckets + hash), _MM_HINT_NTA);
-#elif __GNUC__ >=4
-    	__builtin_prefetch(reinterpret_cast<const char *>(buckets + hash), 0, 0);
-#endif
+      prefetch(reinterpret_cast<const char *>(buckets + hash));
     }
 
     CCacheData* FindOld(const CBitBoard& pos, u64 hash);
