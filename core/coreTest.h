@@ -2,16 +2,12 @@
 
 #include "Moves.h"
 #include "QPositionTest.h"
-#include "StoreTest.h"
 
 inline void testCore() {
-	void TestBitBoard();
+  void TestBitBoard();
 
-	TestBitBoard();
-	TestQPosition();
-	CMove::Test();
-	CMoves::Test();
-
-	void TestStore();
-	TestStore();
+  TestBitBoard();
+  TestQPosition();
+  CMove::Test();
+  CMoves::Test();
 }

@@ -20,8 +20,8 @@ using namespace std;
 
 CMPCStats::CMPCStats(const char* fnStats, int anPrunes) {
     FILE* fpStats;
-    int nEmpty, nEmpties[kMaxTotPos], nPoints[kMaxTotPos];
-    double data[kMaxTotPos][kMaxMPCHeight];
+    int nEmpty, nEmpties[kMaxTotPos] = {0,}, nPoints[kMaxTotPos] = {0,};
+    double data[kMaxTotPos][kMaxMPCHeight] = {0,};
     char separator;
     int nRead, nRows, dummy, row, col, height, nCut, nDataPoints = 0, iPrune, iVersion;
     int iStartCol;
