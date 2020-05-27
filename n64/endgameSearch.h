@@ -1,7 +1,7 @@
 #ifndef _H_ENDGAME_SEARCH
 #define _H_ENDGAME_SEARCH
 
-#include "types.h"
+#include "port.h"
 #include "hash.h"
 
 struct Empty {

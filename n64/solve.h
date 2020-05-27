@@ -1,4 +1,4 @@
-#include "types.h"
+#include "port.h"
 #include "endgameSearch.h"
 
 int solveNValue(int alpha, int beta, u64 mover, u64 enemy);

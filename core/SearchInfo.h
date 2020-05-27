@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../n64/types.h"
+#include "../port.h"
 
 ////////////////////////////////////////////////////
 // SearchInfo - parameters describing how to search

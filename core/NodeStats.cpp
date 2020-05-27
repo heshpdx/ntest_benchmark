@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <sstream>
 #include <math.h>
-#include "../n64/types.h"
+#include "../port.h"
 #include "../n64/utils.h"
 #include "Ticks.h"
 #include "NodeStats.h"

@@ -9,7 +9,7 @@
 
 #include "BitBoard.h"
 #include "Moves.h"
-#include "../n64/types.h"
+#include "../port.h"
 #include "../n64/utils.h"
 
 ///////////////////////////////////////////

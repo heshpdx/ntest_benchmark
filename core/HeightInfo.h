@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../n64/types.h"
+#include "../port.h"
 #include "SearchInfo.h"
 
 #ifndef _H_HEIGHT_INFO

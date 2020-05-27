@@ -9,7 +9,7 @@
 #include <cassert>
 #include <cstring>
 
-#include "../n64/types.h"
+#include "../port.h"
 #include "options.h"
 #include "Cache.h"
 

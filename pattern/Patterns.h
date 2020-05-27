@@ -12,7 +12,7 @@
 
 #include <cassert>
 
-#include "../n64/types.h"
+#include "../port.h"
 #include "../n64/utils.h"
 
 // Compression class. Call CCompression::Init() to initialize compression.

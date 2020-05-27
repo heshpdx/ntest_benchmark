@@ -9,13 +9,6 @@
 #ifndef __CORE_BITBOARD_H
 #define __CORE_BITBOARD_H
 
-#if __GNUC__ >= 4 && defined(__x86_64__)
-#include <xmmintrin.h>
-#include <smmintrin.h>
-#elif defined(_WIN32)
-#include <nmmintrin.h>
-#endif
-
 #include <cassert>
 #include <stdio.h>
 #include "../n64/utils.h"

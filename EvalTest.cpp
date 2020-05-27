@@ -7,7 +7,7 @@
 // result is compared against the known value. This is a golden value
 // test, against the JA set of coefficients.
 
-#include <inttypes.h>
+#include <cinttypes>
 #include "core/BitBoard.h"
 #include "Evaluator.h"
 #include "n64/flips.h"

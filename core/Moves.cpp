@@ -5,7 +5,7 @@
 
 // moves source file
 
-#include <inttypes.h>
+#include <cinttypes>
 #include <cassert>
 #include <cstring>
 #include <cstdlib>

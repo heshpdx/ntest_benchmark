@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <iomanip>
 
-#include "types.h"
+#include "port.h"
 #include "utils.h"
 #include "solve.h"
 #include "flips.h"

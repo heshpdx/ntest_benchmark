@@ -45,7 +45,7 @@ for the second diagonal. The second diagonal (NESW) has a count of 8 and step
 of 7, and thus cannot be handled by the EXTRACT_BITS_U64.
 */
 
-#include <inttypes.h>
+#include <cinttypes>
 template <typename IntT, unsigned int start_bit,
           unsigned int count, unsigned int step>
 class meta_repeated_bit {

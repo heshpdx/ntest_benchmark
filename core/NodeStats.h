@@ -13,7 +13,7 @@
 #define _H_NODESTATS
 
 #include <iostream>
-#include "../n64/types.h"
+#include "../port.h"
 
 extern u4 nEvalsQuick, nSNodesQuick;
 extern double nEvals, nSNodes, nINodes, nKFlips, nBBFlips;

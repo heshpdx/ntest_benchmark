@@ -1,7 +1,7 @@
 #ifndef __FLIPS_H
 #define __FLIPS_H
 
-#include "types.h"
+#include "port.h"
 
 void initFlips();
 int lastFlipCount(int sq, u64 mover);

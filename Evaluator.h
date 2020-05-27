@@ -8,7 +8,7 @@
 #pragma once
 
 #include <map>
-#include "n64/types.h"
+#include "port.h"
 #include "n64/utils.h"
 
 #include "pattern/Patterns.h"

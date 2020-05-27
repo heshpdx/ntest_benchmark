@@ -1,4 +1,4 @@
-$COMPILE_FLAGS = "-std=c++14 -pthread -march=native -I."
+$COMPILE_FLAGS = "-std=c++11 -march=native -I."
 add_binary(path: ["speed_test.exe"])
 task :default => ["release"]
 akro_multitask()

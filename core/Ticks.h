@@ -6,7 +6,7 @@
 #ifndef NTEST_PERFORMANCE_H
 #define NTEST_PERFORMANCE_H
 
-#include "../n64/types.h"
+#include "../port.h"
 
 i8 GetTicks();
 i8 GetTicksPerSecond();
