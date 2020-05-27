@@ -249,7 +249,7 @@ void CPlayerComputer::Clear() {
 	int i;
 	for (i=0; i<2; i++)
 		if (caches[i])
-			caches[i]->Clear();
+			caches[i]->SetStale();
 	solved=false;
 }
 
