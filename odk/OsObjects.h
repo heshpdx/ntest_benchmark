@@ -55,11 +55,6 @@ public:
 
     void In(std::istream& is);
     void Out(std::ostream& os) const;
-
-#if _MSC_VER
-    bool operator<(const COsMoveListItem& b) const { return true; }
-    bool operator==(const COsMoveListItem& b) const { return true; }
-#endif
 };
 
 inline std::istream& operator>>(std::istream& is, COsMoveListItem& mli) { mli.In(is); return is; }

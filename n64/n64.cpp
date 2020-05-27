@@ -12,19 +12,10 @@
 #include "hashTest.h"
 #include "n64.h"
 
-void printCompileType() {
-#if defined(_M_AMD64) || defined(__LP64__)
-	std::cout << "64-bit compile\n";
-#else
-	std::cout << "32-bit compile\n";
-#endif
-}
-
 void test() {
 	extern void testSolve();
 	extern void testHash();
 
-	printCompileType();
 	testFlips();
 	testUtils();
 	testLastFlipCountGenerator();
