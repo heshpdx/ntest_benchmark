@@ -7,7 +7,6 @@
 #include "core/options.h"
 #include "core/MPCStats.h"
 
-#include "TreeDebug.h"
 #include "Search.h"
 #include "Evaluator.h"
 
@@ -112,7 +111,7 @@ CValue StaticValue(Pos2& pos2, int iff) {
     // check for out-of-time condition
     if (nEvalsQuick>=nAbortCheck) {
         WipeNodeStats();
-        if (CheckAbort(fPrintAbort))
+        if (CheckAbort(false))
             return 0;
     }
 
@@ -206,7 +205,6 @@ void ValueCacheOrTree(Pos2& pos2, int height, CValue alpha, CValue beta, CMoves&
     if ((cd=cache->FindOld(pos2.GetBB(), hash))) {
         // cutoff if we can; otherwise update searchAlpha, searchBeta and set the best move
         if (cd->Load(height, iPrune, pos2.NEmpty(), alpha, beta, best.move, iffCache, searchAlpha, searchBeta, best.value)) {
-            TREEDEBUG_CACHE;
             return;
         }
         assert(searchAlpha<searchBeta);
@@ -227,11 +225,6 @@ void ValueCacheOrTree(Pos2& pos2, int height, CValue alpha, CValue beta, CMoves&
         cd=cache->FindNew(pos2.GetBB(),hash,height,iPrune, pos2.NEmpty());
         if (cd) {
             cd->Store(height, iPrune, pos2.NEmpty(), best.move, iffCache, searchAlpha, searchBeta, best.value);
-            #ifdef _DEBUG
-            assert(cd->Board()==pos2.GetBB());
-            pos2.CalcMoves(moves);
-            assert(moves.IsValid(best.move));
-            #endif
         }
     }
     assert(abortRound || iPrune || (height+hSolverStart!=pos2.NEmpty()) || (best.value<=64*kStoneValue && best.value>=-64*kStoneValue));
@@ -322,21 +315,15 @@ inline bool ValueMove(Pos2& pos2, int height, int hChild, CValue alpha, CValue b
     }
     // get value,possibly using negascout
     if (fNegascout) {
-        TREEDEBUG_BEFORE_NEGASCOUT;
         vChild=ChildValue(pos2, hChild, vSearchAlpha, vSearchAlpha+1, iPrune);
-        TREEDEBUG_AFTER_NEGASCOUT;
         if (vChild>vSearchAlpha && vChild<beta) {
-            TREEDEBUG_BEFORE;
             vChild=ChildValue(pos2, hChild, vSearchAlpha, beta, iPrune);
             // it may seem illogical but this appears faster than the more usual code
             // vChild=ChildValue(hChild, vChild, beta, iPrune);
-            TREEDEBUG_AFTER;
         }
     }
     else {
-        TREEDEBUG_BEFORE;
         vChild=ChildValue(pos2, hChild, vSearchAlpha, beta, iPrune);
-        TREEDEBUG_AFTER;
     }
 
     // undo move
@@ -350,7 +337,6 @@ inline bool ValueMove(Pos2& pos2, int height, int hChild, CValue alpha, CValue b
         best.move=move;
         best.value=vChild;
         if (best.value>=beta) {
-            TREEDEBUG_CUTOFF;
             return true;
         }
     }
@@ -466,7 +452,7 @@ inline int MmxSolve(CBitBoard m_bb, int alpha, int beta) {
 inline CValue SolveValue(Pos2& pos2, CValue alpha, CValue beta) {
     if (nSNodesQuick>=(nAbortCheck<<4)) {
         WipeNodeStats();
-        if (CheckAbort(fPrintAbort)) {
+        if (CheckAbort(false)) {
             return 0;
         }
     }
@@ -475,7 +461,6 @@ inline CValue SolveValue(Pos2& pos2, CValue alpha, CValue beta) {
     const CValue result=-MmxSolve(pos2.GetBB(), -mmxBeta, -mmxAlpha)*kStoneValue;
 
     assert(result>-kInfinity);
-    TREEDEBUG_CALLSOLVER;
     return result;
 }
 
@@ -618,22 +603,16 @@ void ValueMulti(Pos2& pos2, int height, CValue alpha, CValue beta, int iPrune, u
         pos2.MakeMoveBB(move.Square());
         // get value,possibly using negascout
         if (fNegascout && vSearchAlpha>-kInfinity) {
-            TREEDEBUG_BEFORE_NEGASCOUT;
             vChild=ChildValue(pos2, hChild, vSearchAlpha, vSearchAlpha+1, iPrune);
             assert(vChild>-kInfinity || abortRound);
-            TREEDEBUG_AFTER_NEGASCOUT;
             if (vChild>vSearchAlpha && vChild<beta) {
-                TREEDEBUG_BEFORE;
                 vChild=ChildValue(pos2, hChild, vChild, beta, iPrune);
                 assert(vChild>-kInfinity || abortRound);
-                TREEDEBUG_AFTER;
             }
         }
         else {                
-            TREEDEBUG_BEFORE;
             vChild=ChildValue(pos2, hChild, vSearchAlpha, beta, iPrune);
             assert(vChild>-kInfinity || abortRound);
-            TREEDEBUG_AFTER;
         }
         if (fDebugPrint)
             std::cout << vChild << "\t";
@@ -768,8 +747,6 @@ void IterativeValue(Pos2& pos2, CMoves moves, const CCalcParams& cp,
 
     // iterate
     while (!mvk.move.Valid() || cp.RoundOK(hi, pos2.NEmpty(), tElapsed, si.tRemaining) ) {
-        if (fPrintTree) TreeDebugStartRound(hi);
-
         // Set alpha and beta depending on whether this is an WLD search or exact value search.
         if (hi.fWLD) {
             // if we're doing a full-width WLD search do an aspiration WD or DL search first
@@ -952,10 +929,6 @@ void TimedMVK(Pos2& pos2, const CCalcParams& cp, const CSearchInfo& si, CMVK& mv
     start.Read();
 
     mvk.Clear();
-
-#ifdef _DEBUG
-    mvk.move.Set(-1);
-#endif
 
     if (pos2.NEmpty()==60 && !si.PrintAnalysis()) {
         // beginning - forced move

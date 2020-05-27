@@ -16,12 +16,6 @@
 class CBook;
 class CCache;
 
-#ifdef _DEBUG
-extern bool fPrintTree;
-#else
-const bool fPrintTree=false;
-#endif
-
 extern bool fPrintWLD;
 extern bool fPrintMPCStats;
 extern bool fCompareMode;

@@ -5,15 +5,6 @@
 
 // othello program
 
-#ifdef _MSC_VER 
-#pragma warning(disable: 4786)
-#include <windows.h>
-#endif
-
-#ifdef __MINGW64__
-#include <windows.h>
-#endif
-
 #include <ctime>
 #include <cstdlib>
 #include <cstring>

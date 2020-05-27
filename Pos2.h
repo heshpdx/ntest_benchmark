@@ -5,9 +5,6 @@
 
 #pragma once
 
-#ifndef H_POS2
-#define H_POS2
-
 #include <stdio.h>
 #include <vector>
 #include "n64/utils.h"
@@ -96,4 +93,3 @@ inline void Pos2::PassBB() {
         m_stable_opponent = stable_swap;
     }
 }
-#endif // #ifdef H_POS2

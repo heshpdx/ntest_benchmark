@@ -18,9 +18,6 @@ bool fSolvedAreMinimal=true;
 
 bool fPrintAbort=true;
 
-#ifdef _DEBUG
-bool fPrintTree=false;
-#endif
 bool fPrintWLD=false;
 bool fCompareMode=false;
 bool fInTournament=false;

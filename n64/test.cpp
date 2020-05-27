@@ -6,23 +6,10 @@
 #include <sstream>
 
 // in MSVC, break into the debugger if we're in debug mode and have a test failure
-#ifdef _MSC_VER
-#include <crtdbg.h>
-#endif
 
 void fail(const char* text) {
 	std::cerr << text << std::endl;
-#ifdef _MSC_VER
-	// convert text to wchar_t for output
-	size_t origsize = strlen(text) + 1;
-    const size_t newsize = 100;
-    size_t wSize = 0;
-    wchar_t wText[newsize];
-    mbstowcs_s(&wSize, wText, origsize, text, _TRUNCATE);
-
-	_ASSERT_EXPR(false, wText);
-#endif
-	throw text;
+  exit(1);
 }
 
 void fail(const std::ostringstream& s) {
