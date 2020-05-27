@@ -53,6 +53,7 @@ void TestMpc() {
     assertEquals(481.04178f, sd, 1e-5f);
     assertEquals(.96078372f, cr, 1e-7f);
     assertEquals(1, hCheck);
+    delete &mpcs;
 }
 
 

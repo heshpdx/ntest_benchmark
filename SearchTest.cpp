@@ -222,6 +222,7 @@ void TestIterativeValue(int depth) {
 	std::vector<CMoveValue> mvsEvaluated;
 	ValueMulti(pos2, depth, -kInfinity, kInfinity, 4, 1, mvs, false, false, mvsEvaluated, nValued);
 
+  delete mpcs;
 	cache = NULL;
 }
 
