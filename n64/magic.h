@@ -1,4 +1,5 @@
-#include "stdafx.h"
+#pragma once
+#include "port.h"
 
 u64 rmask(int sq) ;
  

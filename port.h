@@ -33,11 +33,9 @@ typedef uint32_t u32;
 
 #ifdef _WIN32
 #include <intrin.h>
-#endif
-
-#ifndef _WIN32
+#else
 #include <unistd.h>
-#endif //_WIN32
+#endif
 
 #include <string>
 

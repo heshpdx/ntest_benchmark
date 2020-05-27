@@ -7,10 +7,6 @@
 
 #pragma once
 
-#ifndef H_OPTIONS
-#define H_OPTIONS
-
-
 #include <stdio.h>
 
 class CBook;
@@ -36,5 +32,3 @@ extern int nCapturedPositions;
 
 // search params
 extern int hNegascout;
-
-#endif // H_OPTIONS

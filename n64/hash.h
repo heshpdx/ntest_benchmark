@@ -1,7 +1,6 @@
-#include "stdafx.h"
-
-#ifndef _H_HASH
-#define _H_HASH
+#pragma once
+#include <string>
+#include "port.h"
 
 struct Hash {
 	u64 mover;
@@ -65,5 +64,3 @@ private:
 };
 
 u64 hash(u64 a, u64 b);
-
-#endif // _H_HASH

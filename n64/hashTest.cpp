@@ -1,5 +1,5 @@
 #include <cmath>
-
+#include <sstream>
 #include "hash.h"
 #include "test.h"
 

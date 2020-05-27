@@ -10,9 +10,6 @@
 #include "NodeStats.h"
 #include "HeightInfo.h"
 
-#ifndef _H_TIMING
-#define _H_TIMING
-
 //////////////////////////////
 // global timing parameters
 //////////////////////////////
@@ -132,4 +129,3 @@ protected:
     double TTypical(int nEmpty, double tRemaining) const;
 };
 
-#endif // (defined _H_TIMING)

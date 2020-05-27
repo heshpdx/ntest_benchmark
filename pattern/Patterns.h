@@ -7,9 +7,6 @@
 
 #pragma once
 
-#ifndef _H_PATTERNS_    // MSC sucks
-#define _H_PATTERNS_
-
 #include <cassert>
 
 #include "../port.h"
@@ -193,5 +190,3 @@ inline u2 CMap::ConfigToID(u2 config) const {
     assert(0);
     return 0;
 }
-
-#endif    // _PATTERNS_H_

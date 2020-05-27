@@ -7,9 +7,6 @@
 
 #pragma once
 
-#ifndef _H_MOVES    //MSC sucks
-#define _H_MOVES
-
 #include <vector>
 #include "../odk/OsObjects.h"
 #include "../n64/utils.h"
@@ -109,4 +106,3 @@ inline int CMoves::NMoves() const {
 
 inline bool CMoves::HasMoves() const { return all!=0; }
 
-#endif // _H_Moves

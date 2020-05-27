@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
+#include <fstream>
 #include "n64/solve.h"
 #include "core/NodeStats.h"
 #include "core/CalcParams.h"

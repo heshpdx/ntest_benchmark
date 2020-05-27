@@ -1,5 +1,2 @@
-#ifndef __EVALTEST_H
-#define __EVALTEST_H
-
+#pragma once
 void GoldenValueEvalTest();
-#endif

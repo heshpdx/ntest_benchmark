@@ -9,9 +9,6 @@
 
 #pragma once
 
-#ifndef _H_NODESTATS
-#define _H_NODESTATS
-
 #include <iostream>
 #include "../port.h"
 
@@ -43,5 +40,3 @@ void WipeNodeStats();
 void SetAbortTime(double seconds);
 void ResetAbortTime(double seconds);
 bool CheckAbort(bool fPrintAbort);
-
-#endif // _H_NODESTATS

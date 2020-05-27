@@ -1,6 +1,4 @@
-#ifndef _H_PATTERNJ
-#define _H_PATTERNJ
-
+#pragma once
 #include "Patterns.h"
 
 ////////////////////////////////
@@ -47,5 +45,3 @@ const CMap	mapsJ[]= {
 };
 
 const int	nMapsJ=sizeof(mapsJ)/sizeof(CMap);
-
-#endif  //_H_PATTERNJ

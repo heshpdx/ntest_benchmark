@@ -1,9 +1,8 @@
+#pragma once
+
 #include <iostream>
 #include "../port.h"
 #include "SearchInfo.h"
-
-#ifndef _H_HEIGHT_INFO
-#define _H_HEIGHT_INFO
 
 //! Contains the depth of a search.
 class CHeightInfo {
@@ -60,5 +59,3 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const CHeightInfo& hi);
-
-#endif // _H_HEIGHT_INFO

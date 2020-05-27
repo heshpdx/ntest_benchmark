@@ -4,8 +4,7 @@
 // This file is distributed subject to GNU GPL version 3. See the files
 // GPLv3.txt and License.txt in the instructions subdirectory for details.
 
-#ifndef __BIT_EXTRACTOR_H
-#define __BIT_EXTRACTOR_H
+#pragma once
 
 /*
 This header file provides two macros and a function.
@@ -82,4 +81,3 @@ inline uint64_t extract_second_diagonal(uint64_t v) {
     return ((v & meta_repeated_bit<uint64_t, 7, 8, 7>::value) *
             meta_repeated_bit<uint64_t, 0, 8, 8>::value) >> 56;
 }
-#endif  // __BIT_EXTRACTOR_H

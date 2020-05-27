@@ -1,8 +1,7 @@
 // Copyright 2001 Chris Welty
 //  All Rights Reserved
 
-#ifndef ODK_TYPES_H
-#define ODK_TYPES_H
+#pragma once
 
 #include <cassert>
 
@@ -18,5 +17,3 @@ typedef unsigned u4;
 ////////////////////////////////////////////////////////////
 
 const int kErrMem=0x8100;
-
-#endif // ODK_TYPES_H

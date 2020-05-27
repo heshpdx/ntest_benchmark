@@ -1,6 +1,4 @@
-#ifndef _H_ENDGAME_SEARCH
-#define _H_ENDGAME_SEARCH
-
+#pragma once
 #include "port.h"
 #include "hash.h"
 
@@ -24,6 +22,7 @@ struct Empty {
 	}
 };
 
+class HashTable;
 
 class EndgameSearch {
 public:
@@ -39,5 +38,3 @@ public:
 private:
 	void constructEmpties(u64 mover, u64 enemy);
 };
-
-#endif // _H_ENDGAME_SEARCH
