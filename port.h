@@ -43,9 +43,9 @@ typedef uint32_t u32;
 
 inline void prefetch(const char* address) {
 #if defined(_WIN32)
-    	_mm_prefetch(address, _MM_HINT_NTA);
+      _mm_prefetch(address, _MM_HINT_NTA);
 #elif __GNUC__ >=4
-    	__builtin_prefetch(address, 0, 0);
+      __builtin_prefetch(address, 0, 0);
 #endif
 }
 
@@ -107,8 +107,8 @@ inline void storeLowBitIndex(unsigned long& result, u64 bits) {
     _BitScanForward64(&result, bits);
 #else 
     if (!_BitScanForward(&result, low32(bits))) {
-    	_BitScanForward(&result, hi32(bits));
-    	result+=32;
+      _BitScanForward(&result, hi32(bits));
+      result+=32;
     }
 #endif
 #else
@@ -162,5 +162,31 @@ inline u64 flipVertical(u64 a) {
 #error "Unknown compiler"
 #endif
 }
+
+inline void bobLookup(u4& a, u4& b, u4& c, u4& d) {
+    a+=d; d+=a; a^=(a>>7);
+    b+=a; a+=b; b^=(b<<13);
+    c+=b; b+=c; c^=(c>>17);
+    d+=c; c+=d; d^=(d<<9);
+    a+=d; d+=a; a^=(a>>3);
+    b+=a; a+=b; b^=(b<<7);
+    c+=b; b+=c; c^=(c>>15);
+    d+=c; c+=d; d^=(d<<11);
+};
+inline u64 hash_mover_empty(u64 mover, u64 empty) {
+#if defined(__SSE4_2__ ) && (__GNUC__ >= 4 && defined(__x86_64__)) || defined(_WIN32)
+      uint64_t crc = _mm_crc32_u64(0, empty);
+      return (_mm_crc32_u64(crc, mover) * 0x10001ull);
+#else
+      u4 a, b, c, d;
+      a = u4(empty);
+      b = u4(empty >> 32);
+      c = u4(mover);
+      d = u4(mover >> 32);
+      bobLookup(a, b, c, d);
+      return d;
+#endif
+}
+
 i8 GetTicks(void);
 i8 GetTicksPerSecond(void);

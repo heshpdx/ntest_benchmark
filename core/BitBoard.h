@@ -47,18 +47,7 @@ public:
 
     // statistics
     u64 Hash() const {
-#if defined(__SSE4_2__ ) && (__GNUC__ >= 4 && defined(__x86_64__)) || defined(_WIN32)
-    	uint64_t crc = _mm_crc32_u64(0, empty);
-    	return (_mm_crc32_u64(crc, mover) * 0x10001ull);
-#else
-    	u4 a, b, c, d;
-    	a = u4(empty);
-    	b = u4(empty >> 32);
-    	c = u4(mover);
-    	d = u4(mover >> 32);
-    	bobLookup(a, b, c, d);
-    	return d;
-#endif
+      return hash_mover_empty(mover, empty);
     }
 
     int NEmpty() const { return bitCountInt(empty); }

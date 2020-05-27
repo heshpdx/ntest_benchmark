@@ -105,47 +105,6 @@ enum {
     A8=070, B8=071, C8=072, D8=073, E8=074, F8=075, G8=076, H8=077,
 };
 
-//////////////////////////////////////////
-// hash functions
-//////////////////////////////////////////
-
-// bob jenkins hash.
-// usage example with four u4s of data:
-//    a=b=0; c=data[0];
-//    bobMix(a,b,c);
-//    a+=data[1]; b+=data[2]; c+=data[3];
-//    bobMix(a,b,c);
-//    return c;
-
-inline void bobMix(u4& a, u4& b, u4& c) {
-    a-=b; a-=c; a^= (c>>13);
-    b-=c; b-=a; b^= (a<<8);
-    c-=a; c-=b; c^= (b>>13);
-    a-=b; a-=c; a^= (c>>12);
-    b-=c; b-=a; b^= (a<<16);
-    c-=a; c-=b; c^= (b>>5);
-    a-=b; a-=c; a^= (c>>3);
-    b-=c; b-=a; b^= (a<<10);
-    c-=a; c-=b; c^= (b>>15);
-};
-
-// bob jenkins older hash, 'lookup'. May not be as great but it works on 4 bytes at a time
-inline void bobLookup(u4& a, u4& b, u4& c, u4& d) {
-    a+=d; d+=a; a^=(a>>7);
-    b+=a; a+=b; b^=(b<<13);
-    c+=b; b+=c; c^=(c>>17);
-    d+=c; c+=d; d^=(d<<9);
-    a+=d; d+=a; a^=(a>>3);
-    b+=a; a+=b; b^=(b<<7);
-    c+=b; b+=c; c^=(c>>15);
-    d+=c; c+=d; d^=(d<<11);
-};
-
-inline u4 Hash4(u4 a, u4 b, u4 c, u4 d){
-    bobLookup(a,b,c,d);
-    return d;
-}
-
 ///////////////////////////////////////////
 // Coefficient type
 ///////////////////////////////////////////
