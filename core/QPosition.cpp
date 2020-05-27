@@ -115,21 +115,6 @@ bool CQPosition::NonmoverSquare(int col, int row) const {
 
 // Set down a piece and flip opposing pieces. Change m_bb.blacks.
 void CQPosition::MakeMove(CMove move) {
-#if _DEBUG
-    assert((m_bb.empty&m_bb.mover)==0);
-    CMoves movesTest;
-    bool fHasMove=CalcMoves(movesTest);
-    bool fOK = fHasMove?movesTest.IsValid(move):move.IsPass();
-    if (!fOK) {
-    	cout << "--- move " << move << " is invalid ---\n";
-    	Print();
-    	cout.flush();
-    	cerr << " invalid move made" << std::endl;
-    	assert(0);
-    	movesTest.IsValid(move);
-    }
-#endif
-    
     if (!move.IsPass()) {
     	const int sq=move.Square();
     	const u64 enemy = ~(m_bb.mover|m_bb.empty);

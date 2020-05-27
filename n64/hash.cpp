@@ -1,18 +1,13 @@
 #include "stdafx.h"
 #include "hash.h"
-
-#if __GNUC__ >= 4
-inline u64 _byteswap_uint64(u64 a) {
-    return __builtin_bswap64(a);
-}
-#endif
+#include "port.h"
 
 u64 hash(u64 a, u64 b) {
 	const u64 mix = 0xc6a4a7935bd1e995ULL;
 
 	u64 h;
-	h = _byteswap_uint64(a*mix);
-	h = _byteswap_uint64((h+b)*mix);
+	h = flipVertical(a*mix);
+	h = flipVertical((h+b)*mix);
 
 	return h;
 }

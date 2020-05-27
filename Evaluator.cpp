@@ -19,19 +19,9 @@ using namespace std;
 // Evaluator base class
 //////////////////////////////////////////////////
 
-#if defined(__clang__)
-#define INLINE_HINT
-typedef unsigned long TConfig;
-#elif __GNUC__ >= 4
-#define INLINE_HINT inline __attribute__((always_inline)) 
-typedef unsigned long TConfig;
-#elif defined(WIN32)
-#define INLINE_HINT __forceinline
-typedef uint64_t TConfig;
-#else
+using TConfig = unsigned long;
+
 #define INLINE_HINT inline
-typedef unsigned long TConfig;
-#endif
 
 class CEvaluatorList: public std::map<CEvaluatorInfo, CEvaluator*> {
 public:
