@@ -4,6 +4,7 @@
 // GPLv3.txt and License.txt in the instructions subdirectory for details.
 
 // Evaluator source code
+#include <arpa/inet.h>
 #include <sstream>
 #if defined(__GNUC__) && defined(__x86_64__) && !defined(__MINGW32__)
 #include <x86intrin.h>
@@ -75,39 +76,6 @@ std::string CEvaluator::FNBase(char evaluatorType, char coeffSet) {
 //    Use 2x4, 2x5, edge+X patterns
 //////////////////////////////////////////////////////
 
-//! Conver the file to i2 format
-//!
-//! read in the file (float format) and write it out in i2 format.
-//! reopen the file and read the iversion and fParams flags
-static void ConvertFile(FILE*& fp, std::string fn, int& iVersion, u4& fParams) {
-    // convert float coefficient file to int. Write new coefficients file to disk and reload.
-    std::vector<i2> newCoeffs;
-    float oldCoeff;
-    while (fread(&oldCoeff, sizeof(oldCoeff), 1, fp)) {
-        int coeff=int(oldCoeff*kStoneValue);
-        if (coeff>0x3FFF)
-            coeff=0x3FFF;
-        if (coeff<-0x3FFF)
-            coeff=-0x3FFF;
-        newCoeffs.push_back(i2(coeff));
-    }
-    fclose(fp);
-    fp=fopen(fn.c_str(), "wb");
-    if (!fp)
-        throw std::string("Can't open coefficient file for conversion: ")+fn;
-    fParams=100;
-    fwrite(&iVersion, sizeof(int), 1, fp);
-    fwrite(&fParams, sizeof(int), 1, fp);
-    fwrite(&newCoeffs[0], sizeof(u2), newCoeffs.size(), fp);
-    fclose(fp);
-    fp=fopen(fn.c_str(), "rb");
-    if (!fp)
-        throw std::string("Can't open coefficient file ")+fn;
-    size_t result=fread(&iVersion, sizeof(int), 1, fp);
-    assert(result==1);
-    result=fread(&fParams, sizeof(int), 1, fp);
-    assert(result==1);
-}
 
 //! Read in Evaluator coefficients from a coefficient file
 //!
@@ -150,10 +118,9 @@ CEvaluator::CEvaluator(const std::string& fnBase, int nFiles) {
         // read in version and parameter info
         u4 fParams;
         assert(fread(&iVersion, sizeof(iVersion), 1, fp) == 1);
+        iVersion = ntohl(iVersion);
         assert(fread(&fParams, sizeof(fParams), 1, fp) == 1);
-        if (iVersion==1 && fParams==14) {
-            ConvertFile(fp, fn, iVersion, fParams);
-        }
+        fParams = ntohl(fParams);
         if (iVersion!=1 || (fParams!=100)) {
             throw std::string("error reading from coefficients file ")+fnBase;
         }
@@ -180,7 +147,9 @@ CEvaluator::CEvaluator(const std::string& fnBase, int nFiles) {
                 CHECKNEW(i2Coeffs!=NULL);
                 if (fread(i2Coeffs,sizeof(u2),nIDs,fp)<size_t(nIDs))
                     throw std::string("error reading from coefficients file")+fnBase;
-
+                for (unsigned i = 0; i < nIDs; ++i) {
+                  i2Coeffs[i] = ntohs(i2Coeffs[i]);
+                }
                 // convert raw coefficients[id] to i2s[config]
                 for (config=0; config<nConfigs; config++) {
                     id=mapsJ[map].ConfigToID(config);
