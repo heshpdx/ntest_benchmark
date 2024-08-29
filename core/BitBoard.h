@@ -8,6 +8,7 @@
 
 
 #include <cassert>
+#include <sstream>
 #include <stdio.h>
 #include "../n64/utils.h"
 class CMoves;
@@ -65,7 +66,7 @@ public:
     u64 getEnemy() const { return ~(u64(mover)|u64(empty)); }
 
 protected:
-    void FPrintHeader(FILE* fp) const;
+    void FPrintHeader(std::stringstream &ss) const;
 };
 
 bool operator<(const CBitBoard& a, const CBitBoard& b);
